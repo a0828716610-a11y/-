@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Kingdom wiki | คลังข้อมูลKingdom</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #0f0f0f;
+      color: #333;
+    }
+
+    .navbar {
+      height: 65px;
+      background: #080808;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 2px solid #e50914;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #e50914;
+    }
+
+    .nav-menu a {
+      color: white;
+      text-decoration: none;
+      margin-left: 25px;
+      font-size: 16px;
+    }
+
+    .nav-menu a:hover {
+      color: #e50914;
+    }
+
+    .layout {
+      display: flex;
+    }
+
+    .sidebar {
+      width: 240px;
+      min-height: calc(100vh - 65px);
+      background: #171717;
+      color: white;
+      padding: 20px;
+      position: sticky;
+      top: 65px;
+    }
+
+    .sidebar h2 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      text-align: center;
+      color: #e50914;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar li {
+      margin-bottom: 10px;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 12px;
+      border-radius: 8px;
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .sidebar a:hover,
+    .sidebar a.active {
+      background: #e50914;
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 25px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #111111, #3b0a0a);
+      color: white;
+      padding: 35px;
+      border-radius: 18px;
+      margin-bottom: 25px;
+      text-align: center;
+      border: 1px solid #333;
+    }
+
+    .hero h1 {
+      font-size: 34px;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .hero p {
+      color: #cccccc;
+    }
+
+    .filter-box {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 15px;
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+
+    .filter-box input,
+    .filter-box select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #444;
+      border-radius: 8px;
+      font-size: 16px;
+      background: #252525;
+      color: white;
+    }
+
+    .filter-box input::placeholder {
+      color: #999;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #1a1a1a;
+      color: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+      transition: 0.3s;
+      position: relative;
+      border: 1px solid #2d2d2d;
+    }
+
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: #e50914;
+      box-shadow: 0 8px 20px rgba(229,9,20,0.25);
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: #e50914;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 320px;
+      object-fit: contain;
+      background: #111;
+      padding: 15px;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-info h3 {
+      font-size: 19px;
+      margin-bottom: 8px;
+      color: white;
+    }
+
+    .category {
+      color: #e50914;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
+    .detail {
+      font-size: 14px;
+      color: #aaaaaa;
+      margin-bottom: 10px;
+    }
+
+    .price {
+      color: #e50914;
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .btn {
+      display: block;
+      text-align: center;
+      background: #e50914;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #b20710;
+    }
+
+    footer {
+      text-align: center;
+      background: #080808;
+      color: #aaaaaa;
+      padding: 18px;
+      margin-top: 35px;
+      border-radius: 15px;
+      border-top: 2px solid #e50914;
+    }
+
+    @media (max-width: 1100px) {
+      .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 850px) {
+      .layout {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        min-height: auto;
+        position: static;
+      }
+
+      .sidebar ul {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .filter-box {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .navbar {
+        flex-direction: column;
+        height: auto;
+        padding: 15px;
+        gap: 10px;
+      }
+
+      .nav-menu a {
+        margin: 0 8px;
+        font-size: 14px;
+      }
+
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar ul {
+        grid-template-columns: 1fr;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="logo">MOVIE REVIEW</div>
+
+    <div class="nav-menu">
+      <a href="#">หน้าแรก</a>
+      <a href="#">เเนะนำหนัง</a>
+      <a href="#">หมวดหมู่</a>
+      <a href="#">ติดต่อเรา</a>
+    </div>
+  </nav>
+  <div class="layout">
+
+    <aside class="sidebar">
+      <h2>หมวดหมู่</h2>
+      <ul>
+        <li><a href="#" class="side-link active" data-category="all">หนังทั้งหมด</a></li>
+        <li><a href="#" class="side-link" data-category="แอ็กชัน (Action)">🔫 แอ็กชัน (Action)</a></li>
+        <li><a href="#" class="side-link" data-category="สยองขวัญ (Horror)">👻สยองขวัญ (Horror)</a></li>
+        <li><a href="#" class="side-link" data-category="แฟนตาซี (Fantasy)">🧙แฟนตาซี (Fantasy)</a></li>
+        <li><a href="#" class="side-link" data-category="ไซไฟ (Science Fiction)">🚀 ไซไฟ (Science Fiction)</a></li>
+        <li><a href="#" class="side-link" data-category="โรแมนติก (Romance)">❤️ โรแมนติก (Romance)</a></li>
+        <li><a href="#" class="side-link" data-category="คอมเมดี้ (Comedy)">😂 คอมเมดี้ (Comedy)</a></li>
+        <li><a href="#" class="side-link" data-category="ระทึกขวัญ / สืบสวน (Thriller / Mystery)">🕵️ ระทึกขวัญ / สืบสวน (Thriller / Mystery)</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+
+      <section class="hero">
+        <h1> MOVIE REVIEW</h1>
+        <p>เเนะนำหนังเเนวต่างๆ</p>
+   
+      </section>
+
+      <div class="filter-box">
+        <input type="text" id="searchInput" placeholder="ค้นหาชื่อหนัง...">
+
+        <select id="categoryFilter">
+          <option value="all">หนังทั้งหมด</option>
+          <option value="แอ็กชัน (Action)">🔫 แอ็กชัน (Action)</option>
+          <option value="สยองขวัญ (Horror)">👻 สยองขวัญ (Horror)</option>
+          <option value="แฟนตาซี (Fantasy)">🧙 แฟนตาซี (Fantasy)</option>
+          <option value="ไซไฟ (Science Fiction)">🚀 ไซไฟ (Science Fiction)</option>
+          <option value="โรแมนติก (Romance)">❤️ โรแมนติก (Romance)</option>
+          <option value="คอมเมดี้ (Comedy)">😂 คอมเมดี้ (Comedy)</option>
+          <option value="ระทึกขวัญ / สืบสวน (Thriller / Mystery)">🕵️ ระทึกขวัญ / สืบสวน (Thriller / Mystery)</option>
+        </select>
+      </div>
+
+      <div class="product-grid" id="productGrid">
+
+        <div class="product-card" data-name="John Wick" data-category="แอ็กชัน (Action)">
+          <span class="badge">NEW</span>
+          <img src="https://m.media-amazon.com/images/S/pv-target-images/2a8218dd1e0a2ef202fa9189f202fc06e483bb4c129612738825ef157a506a5f.jpg" alt="John Wick">
+          <div class="product-info">
+            <h3>John Wick</h3>
+            <p class="category">หมวดหมู่: แอ็กชัน (Action)</p>
+            <p class="detail">แอ็กชัน | อาชญากรรม | ระทึกขวัญ |</p>
+            <p class="position">จอห์นวิค แรงกว่านรก</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B8%88%E0%B8%AD%E0%B8%99%E0%B8%A7%E0%B8%B4%E0%B8%84.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="Shutter " data-category="สยองขวัญ (Horror)">
+          <span class="badge">SALE</span>
+          <img src="https://upload.wikimedia.org/wikipedia/th/4/45/Shutterposter.jpg?utm_source=th.wikipedia.org&utm_campaign=index&utm_content=original" alt="Shutter">
+          <div class="product-info">
+            <h3>Shutter</h3>
+            <p class="category">หมวดหมู่: สยองขวัญ (Horror)</p>
+            <p class="detail">สยองขวัญ | ลึกลับ | ระทึกขวัญ </p>
+            <p class="position">ชัตเตอร์ กดติดวิญญาณ</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B8%8A%E0%B8%B1%E0%B8%95%E0%B9%80%E0%B8%95%E0%B8%AD%E0%B8%A3%E0%B9%8C.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="Harry Potter" data-category="แฟนตาซี (Fantasy)">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP7AhsyRyzB7DAZiQ3Cl6HA-5qn0ID0HFkJOqYjucbsGpTgetb1VrUVwzS&s=10" alt="Harry Potter">
+          <div class="product-info">
+            <h3>Harry Potter</h3>
+            <p class="category">หมวดหมู่: แฟนตาซี (Fantasy)</p>
+            <p class="detail">แฟนตาซี | ผจญภัย | เวทมนตร์ |</p>
+            <p class="position"> แฮร์รี่ พอตเตอร์ กับศิลาอาถรรพ์</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B9%80%E0%B9%80%E0%B8%AE%E0%B8%A3%E0%B8%B5%E0%B9%88%20%E0%B8%9E%E0%B8%AD%E0%B8%95%E0%B9%80%E0%B8%95%E0%B8%AD%E0%B8%A3%E0%B9%8C.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="Interstellar" data-category="ไซไฟ (Science Fiction)">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxU6bmdSQjOPJzxiHI8oK60vo0WLoUQQ6gxw-UoyusBg&s=10" alt="Interstellar">
+          <div class="product-info">
+            <h3>Interstellar</h3>
+            <p class="category">หมวดหมู่: ไซไฟ (Science Fiction)</p>
+            <p class="detail">วิทยาศาสตร์ | ผจญภัย | ดราม่า |</p>
+            <p class="position">อินเตอร์สเตลลาร์ ทะยานดาวกู้โลก</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%E0%B8%AD%E0%B8%B4%E0%B8%99%E0%B9%80%E0%B8%95%E0%B8%AD%E0%B8%A3%E0%B9%8C%20%E0%B8%AA%E0%B9%80%E0%B8%95%E0%B8%A5%E0%B8%A5%E0%B8%B2.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="The Notebook" data-category="โรแมนติก (Romance)">
+          <span class="badge">HOT</span>
+          <img src="https://m.media-amazon.com/images/M/MV5BZjE0ZjgzMzYtMTAxYi00NGMzLThmZDktNzFlMzA2MWRmYWQ0XkEyXkFqcGc@._V1_.jpg" alt="The Notebook">
+          <div class="product-info">
+            <h3>The Notebook</h3>
+            <p class="category">หมวดหมู่: โรแมนติก (Romance)</p>
+            <p class="detail">โรแมนติก | ดราม่า | ความรัก </p>
+            <p class="position">รักเธอหมดใจ ขีดไว้ให้โลกจารึก</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B9%82%E0%B8%99%E0%B9%89%E0%B8%95%E0%B8%9A%E0%B8%B8%E0%B9%8A%E0%B8%84.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="The Truman Show" data-category="คอมเมดี้ (Comedy)">
+          <img src="https://f.ptcdn.info/300/053/000/ovd0bwef4k37KzlEkTm-o.jpg" alt="The Truman Show">
+          <div class="product-info">
+            <h3>The Truman Show</h3>
+            <p class="category">หมวดหมู่: คอมเมดี้ (Comedy)</p>
+            <p class="detail">คอมเมดี้ | ดราม่า | เสียดสีสังคม </p>
+            <p class="position">ชีวิตมหัศจรรย์ ทรูแมน โชว์</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%E0%B8%97%E0%B8%A3%E0%B8%B9%E0%B9%80%E0%B9%80%E0%B8%A1%E0%B8%99%E0%B9%82%E0%B8%8A%E0%B8%A7%E0%B9%8C.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="Nobody" data-category="แอ็กชัน (Action)">
+          <span class="badge">SALE</span>
+          <img src="https://m.media-amazon.com/images/I/81lPoh3eRyL._AC_UF350,350_QL50_.jpg" alt="Nobody">
+          <div class="product-info">
+            <h3>Nobody</h3>
+            <p class="category">หมวดหมู่: แอ็กชัน (Action)</p>
+            <p class="detail">แอ็กชัน | ระทึกขวัญ | อาชญากรรม</p>
+            <p class="position">คนธรรมดานรกเรียกพี่</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%E0%B8%8A%E0%B8%B2%E0%B8%A2%E0%B8%98%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%94%E0%B8%B2.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="The Exorcist" data-category="สยองขวัญ (Horror)">
+        <span class="badge">LEGEND</span>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcY1Avq_H54f617Qwut3jyHll9FsPSMkxV21dwSXzn-g&s=10" alt="The Exorcist">
+
+        <div class="product-info">
+          <h3>The Exorcist</h3>
+          <p class="category">หมวดหมู่: สยองขวัญ (Horror)</p>
+          <p class="detail">สยองขวัญ | เหนือธรรมชาติ | ปีศาจ</p>
+          <p class="position">หมอผีเอ็กซอร์ซิสต์</p>
+          <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B8%AB%E0%B8%A1%E0%B8%AD%E0%B8%9C%E0%B8%B5.html" class="btn">ดูรายละเอียด</a>
+        </div>
+        </div>
+
+        <div class="product-card" data-name="The Shawshank Redemption" data-category="ระทึกขวัญ / สืบสวน (Thriller / Mystery)">
+          <span class="badge">PROMO</span>
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEhT_rRccVkdyTlPgYR_NmKcGIROWoqBWlv9odrqsDaQ&s=10" alt="The Shawshank Redemption">
+          <div class="product-info">
+            <h3>The Shawshank Redemption</h3>
+            <p class="category">หมวดหมู่: ระทึกขวัญ / สืบสวน (Thriller / Mystery)</p>
+            <p class="detail">ดราม่า | อาชญากรรม | เรือนจำ</p>
+            <p class="position">ชอว์แชงค์ มิตรภาพ ความหวัง ความรุนแรง</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B8%8A%E0%B8%AD%E0%B8%A7%E0%B9%8C%E0%B9%80%E0%B9%80%E0%B8%8A%E0%B8%87%E0%B8%84%E0%B9%8C.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="Alien" data-category="ไซไฟ (Science Fiction)">
+          <img src="https://m.media-amazon.com/images/M/MV5BN2NhMDk2MmEtZDQzOC00MmY5LThhYzAtMDdjZGFjOGZjMjdjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Alien">
+          <div class="product-info">
+            <h3>Alien</h3>
+            <p class="category">หมวดหมู่: ไซไฟ (Science Fiction)</p>
+            <p class="detail">ไซไฟ | สยองขวัญ | ระทึกขวัญ</p>
+            <p class="position"> เอเลี่ยน</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B9%80%E0%B8%AD%E0%B9%80%E0%B8%A5%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%99.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="Titanic" data-category="โรแมนติก (Romance)">
+          <img src="https://public-website-assets.paramountpictures.com/paramount2025/s3fs-public/styles/poster_medium/public/titanic2012_en_800x1200.jpg?itok=lbdE3VIG" alt="Titanic">
+          <div class="product-info">
+            <h3>Titanic</h3>
+            <p class="category">หมวดหมู่: โรแมนติก (Romance)</p>
+            <p class="detail">โรแมนติก | ดราม่า | ประวัติศาสตร์</p>
+            <p class="position">ไททานิค ชู้รัก เรือล่ม</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B9%84%E0%B8%97%E0%B8%97%E0%B8%B2%E0%B8%99%E0%B8%B4%E0%B8%84.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+        <div class="product-card" data-name="Hor Taew Tak " data-category="คอมเมดี้ (Comedy)">
+          <span class="badge">PROMO</span>
+          <img src="https://img.monomax.me/eLSzCWm8LenhjtQAwQgHYHuuxVo=/monomax-obj.obs.ap-southeast-2.myhuaweicloud.com/assets/fileupload/picture/OhMyGhost2_500.jpg" alt="Hor Taew Tak">
+          <div class="product-info">
+            <h3>Hor Taew Tak</h3>
+            <p class="category">หมวดหมู่: คอมเมดี้ (Comedy)</p>
+            <p class="detail">ตลก | สยองขวัญ | คลายเครียด</p>
+            <p class="position">หอเเต๋วเเตกเเหก</p>
+            <a href="file:///C:/Users/a0828/OneDrive/Desktop/%E0%B9%80%E0%B8%A7%E0%B9%87%E0%B8%9B%E0%B9%84%E0%B8%A7%E0%B8%95%E0%B9%8C%E0%B8%87%E0%B8%B2%E0%B8%99%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B9%88%E0%B8%A1/index%20%E0%B8%AB%E0%B8%AD%E0%B9%80%E0%B9%80%E0%B8%95%E0%B9%8B%E0%B8%A7%E0%B9%80%E0%B9%80%E0%B8%95%E0%B8%81.html" class="btn">ดูรายละเอียด</a>
+          </div>
+        </div>
+
+      </div>
+
+      <footer>
+        <p>© 2026 Movie Review | เว็บไซต์แนะนำและรีวิวหนัง</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById("searchInput");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const products = document.querySelectorAll(".product-card");
+    const sideLinks = document.querySelectorAll(".side-link");
+
+    function filterProducts() {
+      const searchText = searchInput.value.toLowerCase();
+      const selectedCategory = categoryFilter.value;
+
+      products.forEach(product => {
+        const name = product.dataset.name.toLowerCase();
+        const category = product.dataset.category;
+
+        const matchName = name.includes(searchText);
+        const matchCategory = selectedCategory === "all" || category === selectedCategory;
+
+        product.style.display = matchName && matchCategory ? "block" : "none";
+      });
+    }
+
+    searchInput.addEventListener("keyup", filterProducts);
+    categoryFilter.addEventListener("change", filterProducts);
+
+    sideLinks.forEach(link => {
+      link.addEventListener("click", function(e) {
+        e.preventDefault();
+
+        sideLinks.forEach(item => item.classList.remove("active"));
+        this.classList.add("active");
+
+        const category = this.dataset.category;
+        categoryFilter.value = category;
+        filterProducts();
+      });
+    });
+  </script>
+
+</body>
+</html>
